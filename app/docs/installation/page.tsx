@@ -1,4 +1,5 @@
 import { AlertTriangle, CheckCircle, Info } from "lucide-react";
+import { useId } from "react";
 import { CodeBlock } from "@/components/code-block";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
@@ -57,7 +58,7 @@ export default function InstallationPage() {
 			</Card>
 
 			{/* Quick Start */}
-			<Card id="quick-start">
+			<Card id={useId()}>
 				<CardHeader>
 					<CardTitle className="flex items-center space-x-2">
 						<CheckCircle className="h-5 w-5 text-green-600" />
@@ -102,8 +103,8 @@ export default function InstallationPage() {
 					<Alert>
 						<CheckCircle className="h-4 w-4" />
 						<AlertDescription>
-							That's it! Your Tailscale MCP Server is now running on the default
-							port 3000.
+							That&apos;s it! Your Tailscale MCP Server is now running on the
+							default port 3000.
 						</AlertDescription>
 					</Alert>
 				</CardContent>
@@ -427,7 +428,7 @@ bun build --target=bun --outdir=./dist src/index.ts`}
 					<a href="/docs/usage" className="text-primary hover:underline">
 						Usage Examples
 					</a>{" "}
-					to see how to integrate with Bun's fast development tools.
+					to see how to integrate with Bun&apos;s fast development tools.
 				</AlertDescription>
 			</Alert>
 		</div>

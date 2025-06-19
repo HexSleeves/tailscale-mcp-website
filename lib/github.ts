@@ -63,7 +63,7 @@ interface CacheEntry<T> {
 }
 
 class APICache {
-	private cache = new Map<string, CacheEntry<any>>();
+	private cache = new Map<string, CacheEntry<unknown>>();
 	private readonly DEFAULT_TTL = 5 * 60 * 1000; // 5 minutes
 
 	set<T>(key: string, data: T, ttl: number = this.DEFAULT_TTL): void {
@@ -84,7 +84,7 @@ class APICache {
 			return null;
 		}
 
-		return entry.data;
+		return entry.data as T;
 	}
 
 	clear(): void {
@@ -99,11 +99,13 @@ class APICache {
 	}
 }
 
+import { API_ENDPOINTS, REPO_CONFIG, PROJECT_META } from "./constants";
+
 export class GitHubAPI {
-	private baseUrl = "https://api.github.com";
-	private owner = "HexSleeves";
-	private repo = "tailscale-mcp";
-	private bunPackage = "@hexsleeves/tailscale-mcp-server"; // Updated to reflect Bun package
+	private baseUrl = API_ENDPOINTS.GITHUB_API;
+	private owner = REPO_CONFIG.OWNER;
+	private repo = REPO_CONFIG.REPO;
+	private bunPackage = REPO_CONFIG.PACKAGE_NAME;
 	private cache = new APICache();
 
 	private async fetchWithCache<T>(
@@ -123,7 +125,7 @@ export class GitHubAPI {
 
 		const headers: Record<string, string> = {
 			Accept: "application/vnd.github.v3+json",
-			"User-Agent": "Tailscale-MCP-Landing/1.0.0 (Bun Runtime)",
+			"User-Agent": PROJECT_META.USER_AGENT,
 		};
 
 		// Add GitHub token if available for higher rate limits
@@ -255,7 +257,7 @@ export class GitHubAPI {
 		try {
 			// Try npm registry first (Bun packages are also published to npm)
 			const response = await fetch(
-				`https://api.npmjs.org/downloads/point/last-month/${this.bunPackage}`,
+				`${API_ENDPOINTS.NPM_DOWNLOADS}/${this.bunPackage}`,
 			);
 
 			if (!response.ok) {
@@ -318,7 +320,7 @@ export class GitHubAPI {
 	}> {
 		const headers: Record<string, string> = {
 			Accept: "application/vnd.github.v3+json",
-			"User-Agent": "Tailscale-MCP-Landing/1.0.0 (Bun Runtime)",
+			"User-Agent": PROJECT_META.USER_AGENT,
 		};
 
 		if (process.env.GITHUB_TOKEN) {
@@ -354,37 +356,3 @@ export class GitHubAPI {
 }
 
 export const githubApi = new GitHubAPI();
-
-// Utility functions for formatting
-export function formatNumber(num: number): string {
-	if (num >= 1000000) {
-		return (num / 1000000).toFixed(1) + "M";
-	}
-	if (num >= 1000) {
-		return (num / 1000).toFixed(1) + "k";
-	}
-	return num.toString();
-}
-
-export function formatDate(dateString: string): string {
-	return new Date(dateString).toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-	});
-}
-
-export function getTimeAgo(dateString: string): string {
-	const now = new Date();
-	const date = new Date(dateString);
-	const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-	if (diffInSeconds < 60) return "just now";
-	if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-	if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-	if (diffInSeconds < 2592000)
-		return `${Math.floor(diffInSeconds / 86400)}d ago`;
-	if (diffInSeconds < 31536000)
-		return `${Math.floor(diffInSeconds / 2592000)}mo ago`;
-	return `${Math.floor(diffInSeconds / 31536000)}y ago`;
-}

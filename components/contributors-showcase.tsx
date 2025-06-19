@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc/client";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
 
 interface ContributorsShowcaseProps {
@@ -33,7 +34,7 @@ export function ContributorsShowcase({
 			refetchOnWindowFocus: false,
 			refetchOnMount: true,
 			staleTime: 15 * 60 * 1000, // 15 minutes
-			cacheTime: 60 * 60 * 1000, // 1 hour
+			gcTime: 60 * 60 * 1000, // 1 hour
 		},
 	);
 
@@ -84,7 +85,7 @@ export function ContributorsShowcase({
 								Top Contributors
 							</CardTitle>
 							<Link
-								href="https://github.com/HexSleeves/tailscale-mcp/graphs/contributors"
+								href={PROJECT_URLS.GITHUB_CONTRIBUTORS}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -100,7 +101,7 @@ export function ContributorsShowcase({
 							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
 								{Array.from({ length: limit }).map((_, index) => (
 									<div
-										key={index}
+										key={`index-${index}`}
 										className="flex flex-col items-center space-y-2"
 									>
 										<Skeleton className="h-16 w-16 rounded-full" />
@@ -156,7 +157,7 @@ export function ContributorsShowcase({
 						{!showAll && totalContributors > limit && (
 							<div className="mt-6 text-center">
 								<Link
-									href="https://github.com/HexSleeves/tailscale-mcp/graphs/contributors"
+									href={PROJECT_URLS.GITHUB_CONTRIBUTORS}
 									target="_blank"
 									rel="noopener noreferrer"
 								>

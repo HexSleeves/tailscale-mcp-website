@@ -10,7 +10,6 @@ import {
 	Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { SocialShare } from "@/components/social-share";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,18 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { PROJECT_URLS } from "@/lib/constants";
+
+const keyFeatures = [
+	"Direct Tailscale CLI integration",
+	"Full MCP protocol implementation",
+	"Lightning-fast Bun runtime",
+	"Secure agent communication",
+	"TypeScript support",
+	"Comprehensive API coverage",
+	"Real-time network monitoring",
+	"Automated threat response",
+];
 
 export default function DocsPage() {
 	return (
@@ -135,7 +146,7 @@ export default function DocsPage() {
 					</p>
 					<p>
 						The server provides a standardized interface for AI agents to
-						interact with Tailscale's CLI and API, enabling sophisticated
+						interact with Tailscale&apos;s CLI and API, enabling sophisticated
 						automation workflows while maintaining security and reliability.
 					</p>
 				</div>
@@ -144,17 +155,8 @@ export default function DocsPage() {
 			<div>
 				<h2 className="text-2xl font-bold mb-4">Key Features</h2>
 				<div className="grid md:grid-cols-2 gap-4">
-					{[
-						"Direct Tailscale CLI integration",
-						"Full MCP protocol implementation",
-						"Lightning-fast Bun runtime",
-						"Secure agent communication",
-						"TypeScript support",
-						"Comprehensive API coverage",
-						"Real-time network monitoring",
-						"Automated threat response",
-					].map((feature, index) => (
-						<div key={index} className="flex items-center space-x-2">
+					{keyFeatures.map((feature) => (
+						<div key={feature} className="flex items-center space-x-2">
 							<div className="h-2 w-2 bg-primary rounded-full" />
 							<span className="text-sm">{feature}</span>
 						</div>
@@ -174,7 +176,7 @@ export default function DocsPage() {
 					</Button>
 				</Link>
 				<Link
-					href="https://www.npmjs.com/package/tailscale-mcp-server"
+					href={PROJECT_URLS.NPM_PACKAGE}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
@@ -195,20 +197,6 @@ export default function DocsPage() {
 						<ExternalLink className="ml-2 h-3 w-3 opacity-70" />
 					</Button>
 				</Link>
-			</div>
-
-			{/* Add Social Sharing Section */}
-			<div className="mt-12 pt-8 border-t">
-				<SocialShare
-					title="📚 Tailscale MCP Server Documentation - Complete Setup Guide"
-					description="Comprehensive documentation for Tailscale MCP Server. Learn how to install, configure, and use this powerful network automation tool."
-					hashtags={[
-						"TailscaleMCP",
-						"Documentation",
-						"NetworkAutomation",
-						"DevOps",
-					]}
-				/>
 			</div>
 		</div>
 	);

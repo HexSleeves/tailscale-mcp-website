@@ -1,56 +1,23 @@
 "use client";
 
-import {
-	ArrowRight,
-	Book,
-	Download,
-	Github,
-	Play,
-	Star,
-	Users,
-	Zap,
-} from "lucide-react";
+import { ArrowRight, Book, Github, Play, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
 import { GitHubStats } from "./github-stats";
-import { SocialShare } from "./social-share";
 
-const stats = [
-	{
-		label: "GitHub Stars",
-		value: "Live",
-		icon: Star,
-		link: "https://github.com/HexSleeves/tailscale-mcp",
-	},
-	{
-		label: "Downloads",
-		value: "Live",
-		icon: Download,
-		link: "https://www.npmjs.com/package/tailscale-mcp-server",
-	},
-	{
-		label: "Active Users",
-		value: "Live",
-		icon: Users,
-		link: "https://github.com/HexSleeves/tailscale-mcp/network/dependents",
-	},
+const trustedCompanies = [
+	{ name: "Vercel", url: "https://vercel.com" },
+	{ name: "GitHub", url: "https://github.com" },
+	{ name: "Tailscale", url: "https://tailscale.com" },
+	{ name: "OpenAI", url: "https://openai.com" },
 ];
 
 export function EnhancedHero() {
-	const [currentStat, setCurrentStat] = useState(0);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentStat((prev) => (prev + 1) % stats.length);
-		}, 3000);
-		return () => clearInterval(interval);
-	}, []);
-
 	return (
 		<section className="relative py-20 md:py-32 overflow-hidden">
 			{/* Background Effects */}
@@ -120,7 +87,7 @@ export function EnhancedHero() {
 								asChild
 							>
 								<Link
-									href="https://github.com/HexSleeves/tailscale-mcp"
+									href={PROJECT_URLS.GITHUB_REPO}
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -170,12 +137,7 @@ export function EnhancedHero() {
 						<div className="text-sm text-muted-foreground">
 							Trusted by developers at
 						</div>
-						{[
-							{ name: "Vercel", url: "https://vercel.com" },
-							{ name: "GitHub", url: "https://github.com" },
-							{ name: "Tailscale", url: "https://tailscale.com" },
-							{ name: "OpenAI", url: "https://openai.com" },
-						].map((company) => (
+						{trustedCompanies.map((company) => (
 							<Link
 								key={company.name}
 								href={company.url}
@@ -190,21 +152,6 @@ export function EnhancedHero() {
 								</Badge>
 							</Link>
 						))}
-					</div>
-
-					{/* Social Share */}
-					<div className="pt-8">
-						<SocialShare
-							variant="compact"
-							className="justify-center"
-							title="🚀 Check out Tailscale MCP Server - Intelligent Network Automation!"
-							hashtags={[
-								"TailscaleMCP",
-								"NetworkAutomation",
-								"Bun",
-								"OpenSource",
-							]}
-						/>
 					</div>
 				</AnimatedSection>
 			</div>

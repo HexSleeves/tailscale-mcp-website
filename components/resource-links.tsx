@@ -5,104 +5,105 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
 
-export function ResourceLinks() {
-	const resources = [
-		{
-			title: "Documentation",
-			description:
-				"Complete guides and API reference for getting started with Tailscale MCP Server.",
-			icon: Book,
-			links: [
-				{ name: "Quick Start Guide", href: "/docs", internal: true },
-				{ name: "Installation", href: "/docs/installation", internal: true },
-				{ name: "Configuration", href: "/docs/configuration", internal: true },
-				{ name: "Usage Examples", href: "/docs/usage", internal: true },
-			],
-			badge: "Essential",
-		},
-		{
-			title: "Development",
-			description:
-				"Resources for developers who want to contribute or extend the functionality.",
-			icon: Code,
-			links: [
-				{
-					name: "GitHub Repository",
-					href: "https://github.com/HexSleeves/tailscale-mcp",
-					internal: false,
-				},
-				{
-					name: "Contributing Guide",
-					href: "https://github.com/HexSleeves/tailscale-mcp/blob/main/CONTRIBUTING.md",
-					internal: false,
-				},
-				{ name: "API Reference", href: "/docs/usage", internal: true },
-				{
-					name: "TypeScript Types",
-					href: "https://github.com/HexSleeves/tailscale-mcp/blob/main/types",
-					internal: false,
-				},
-			],
-			badge: "Developer",
-		},
-		{
-			title: "Community",
-			description:
-				"Connect with other users, get help, and share your experiences.",
-			icon: Users,
-			links: [
-				{
-					name: "GitHub Discussions",
-					href: "https://github.com/HexSleeves/tailscale-mcp/discussions",
-					internal: false,
-				},
-				{
-					name: "Issue Tracker",
-					href: "https://github.com/HexSleeves/tailscale-mcp/issues",
-					internal: false,
-				},
-				{
-					name: "Feature Requests",
-					href: "https://github.com/HexSleeves/tailscale-mcp/issues/new?template=feature_request.md",
-					internal: false,
-				},
-				{
-					name: "Bug Reports",
-					href: "https://github.com/HexSleeves/tailscale-mcp/issues/new?template=bug_report.md",
-					internal: false,
-				},
-			],
-			badge: "Community",
-		},
-		{
-			title: "Support",
-			description:
-				"Get help with implementation, troubleshooting, and best practices.",
-			icon: MessageCircle,
-			links: [
-				{ name: "FAQ", href: "/docs#faq", internal: true },
-				{
-					name: "Troubleshooting",
-					href: "/docs/configuration#troubleshooting",
-					internal: true,
-				},
-				{
-					name: "Best Practices",
-					href: "/docs/usage#best-practices",
-					internal: true,
-				},
-				{
-					name: "Community Help",
-					href: "https://github.com/HexSleeves/tailscale-mcp/discussions/categories/q-a",
-					internal: false,
-				},
-			],
-			badge: "Help",
-		},
-	];
+const resources = [
+	{
+		icon: Book,
+		title: "Documentation",
+		description:
+			"Complete guides and API reference for getting started with Tailscale MCP Server.",
+		badge: "Essential",
+		links: [
+			{ name: "Quick Start Guide", href: "/docs", internal: true },
+			{ name: "Installation", href: "/docs/installation", internal: true },
+			{ name: "Configuration", href: "/docs/configuration", internal: true },
+			{ name: "Usage Examples", href: "/docs/usage", internal: true },
+		],
+	},
+	{
+		icon: Code,
+		title: "Development",
+		description:
+			"Resources for developers who want to contribute or extend the functionality.",
+		links: [
+			{
+				name: "GitHub Repository",
+				href: PROJECT_URLS.GITHUB_REPO,
+				internal: false,
+			},
+			{
+				name: "Contributing Guide",
+				href: PROJECT_URLS.GITHUB_CONTRIBUTING,
+				internal: false,
+			},
+			{ name: "API Reference", href: "/docs/usage", internal: true },
+			{
+				name: "TypeScript Types",
+				href: PROJECT_URLS.GITHUB_TYPES,
+				internal: false,
+			},
+		],
+		badge: "Developer",
+	},
+	{
+		icon: Users,
+		title: "Community",
+		description:
+			"Connect with other users, get help, and share your experiences.",
+		links: [
+			{
+				name: "GitHub Discussions",
+				href: PROJECT_URLS.GITHUB_DISCUSSIONS,
+				internal: false,
+			},
+			{
+				name: "Issue Tracker",
+				href: PROJECT_URLS.GITHUB_ISSUES,
+				internal: false,
+			},
+			{
+				name: "Feature Requests",
+				href: PROJECT_URLS.GITHUB_FEATURE_REQUEST,
+				internal: false,
+			},
+			{
+				name: "Bug Reports",
+				href: PROJECT_URLS.GITHUB_BUG_REPORT,
+				internal: false,
+			},
+		],
+		badge: "Community",
+	},
+	{
+		icon: MessageCircle,
+		title: "Support",
+		description:
+			"Get help with implementation, troubleshooting, and best practices.",
+		badge: "Help",
+		links: [
+			{ name: "FAQ", href: "/docs#faq", internal: true },
+			{
+				name: "Troubleshooting",
+				href: "/docs/configuration#troubleshooting",
+				internal: true,
+			},
+			{
+				name: "Best Practices",
+				href: "/docs/usage#best-practices",
+				internal: true,
+			},
+			{
+				name: "Community Help",
+				href: PROJECT_URLS.GITHUB_QA_DISCUSSIONS,
+				internal: false,
+			},
+		],
+	},
+];
 
+export function ResourceLinks() {
 	return (
 		<section className="py-20 bg-muted/30">
 			<div className="container px-4 md:px-6">
@@ -122,7 +123,10 @@ export function ResourceLinks() {
 					{resources.map((resource, index) => {
 						const Icon = resource.icon;
 						return (
-							<AnimatedSection key={index} delay={index * 100}>
+							<AnimatedSection
+								key={`${resource.title}-${index}`}
+								delay={index * 100}
+							>
 								<Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-105 group">
 									<CardHeader>
 										<div className="flex items-center justify-between mb-2">
@@ -140,7 +144,7 @@ export function ResourceLinks() {
 										<div className="space-y-2">
 											{resource.links.map((link, linkIndex) => (
 												<Link
-													key={linkIndex}
+													key={`${link.name}-${linkIndex}`}
 													href={link.href}
 													target={link.internal ? undefined : "_blank"}
 													rel={
@@ -168,7 +172,7 @@ export function ResourceLinks() {
 					<div className="text-center mt-12">
 						<Button asChild size="lg" className="group">
 							<Link
-								href="https://github.com/HexSleeves/tailscale-mcp"
+								href={PROJECT_URLS.GITHUB_REPO}
 								target="_blank"
 								rel="noopener noreferrer"
 							>

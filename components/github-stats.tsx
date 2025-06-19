@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc/client";
+import { formatNumber } from "@/lib/utils";
+import { PROJECT_URLS } from "@/lib/constants";
 import { HydrationSafeWrapper } from "./hydration-safe-wrapper";
 import { SafeDateFormatter } from "./safe-date-formatter";
 
@@ -63,7 +65,6 @@ export function GitHubStats({
 	const {
 		data: npmData,
 		isLoading: npmLoading,
-		error: npmError,
 		refetch: refetchNpm,
 		isRefetching: isRefetchingNpm,
 		dataUpdatedAt: npmUpdatedAt,
@@ -115,16 +116,6 @@ export function GitHubStats({
 		} else {
 			await Promise.all([refetchStats(), refetchNpm()]);
 		}
-	};
-
-	const formatNumber = (num: number): string => {
-		if (num >= 1000000) {
-			return `${(num / 1000000).toFixed(1)}M`;
-		}
-		if (num >= 1000) {
-			return `${(num / 1000).toFixed(1)}k`;
-		}
-		return num.toString();
 	};
 
 	const stats = statsData?.data;
@@ -195,7 +186,7 @@ export function GitHubStats({
 				) : (
 					<>
 						<Link
-							href="https://github.com/HexSleeves/tailscale-mcp"
+							href={PROJECT_URLS.GITHUB_REPO}
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -211,7 +202,7 @@ export function GitHubStats({
 							</Badge>
 						</Link>
 						<Link
-							href="https://www.npmjs.com/package/@hexsleeves/tailscale-mcp-server"
+							href={PROJECT_URLS.NPM_PACKAGE}
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -232,7 +223,7 @@ export function GitHubStats({
 							</Badge>
 						</Link>
 						<Link
-							href="https://github.com/HexSleeves/tailscale-mcp/graphs/contributors"
+							href={PROJECT_URLS.GITHUB_CONTRIBUTORS}
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -255,35 +246,35 @@ export function GitHubStats({
 			icon: Star,
 			label: "Stars",
 			value: stats?.stars || 0,
-			link: "https://github.com/HexSleeves/tailscale-mcp/stargazers",
+			link: `${PROJECT_URLS.GITHUB_REPO}/stargazers`,
 			color: "text-yellow-600",
 		},
 		{
 			icon: GitFork,
 			label: "Forks",
 			value: stats?.forks || 0,
-			link: "https://github.com/HexSleeves/tailscale-mcp/network/members",
+			link: `${PROJECT_URLS.GITHUB_REPO}/network/members`,
 			color: "text-blue-600",
 		},
 		{
 			icon: Eye,
 			label: "Watchers",
 			value: stats?.watchers || 0,
-			link: "https://github.com/HexSleeves/tailscale-mcp/watchers",
+			link: `${PROJECT_URLS.GITHUB_REPO}/watchers`,
 			color: "text-green-600",
 		},
 		{
 			icon: Users,
 			label: "Contributors",
 			value: stats?.contributors || 0,
-			link: "https://github.com/HexSleeves/tailscale-mcp/graphs/contributors",
+			link: PROJECT_URLS.GITHUB_CONTRIBUTORS,
 			color: "text-purple-600",
 		},
 		{
 			icon: Download,
 			label: "Downloads",
 			value: npmDownloads?.downloads || 0,
-			link: "https://www.npmjs.com/package/@hexsleeves/tailscale-mcp-server",
+			link: PROJECT_URLS.NPM_PACKAGE,
 			color: "text-red-600",
 			suffix: "/month",
 		},
@@ -291,7 +282,7 @@ export function GitHubStats({
 			icon: Package,
 			label: "Releases",
 			value: stats?.releases || 0,
-			link: "https://github.com/HexSleeves/tailscale-mcp/releases",
+			link: PROJECT_URLS.GITHUB_RELEASES,
 			color: "text-orange-600",
 		},
 	];

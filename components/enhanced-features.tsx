@@ -8,6 +8,7 @@ import {
 	Terminal,
 	Zap,
 } from "lucide-react";
+import { useId } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -77,7 +78,7 @@ const features = [
 export function EnhancedFeatures() {
 	return (
 		<section
-			id="features"
+			id={useId()}
 			className="py-20 bg-gradient-to-b from-background to-muted/20"
 		>
 			<div className="container px-4 md:px-6">
@@ -90,15 +91,15 @@ export function EnhancedFeatures() {
 					</h2>
 					<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
 						Built from the ground up to provide seamless integration with
-						Tailscale's ecosystem
+						Tailscale&apos;s ecosystem
 					</p>
 				</AnimatedSection>
 
 				<div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-					{features.map((feature, index) => {
+					{features.map((feature) => {
 						const Icon = feature.icon;
 						return (
-							<AnimatedSection key={index} delay={feature.delay}>
+							<AnimatedSection key={feature.title} delay={feature.delay}>
 								<Card className="group border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full">
 									<CardHeader className="pb-4">
 										<div className="flex items-start justify-between">

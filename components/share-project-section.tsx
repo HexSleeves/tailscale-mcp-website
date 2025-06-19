@@ -12,51 +12,51 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
-import { SocialShare } from "./social-share";
+
+const shareData = {
+	title: "Tailscale MCP Server - Intelligent Network Automation",
+	description:
+		"High-performance MCP server for Tailscale network management and automation. Built with Bun runtime for lightning-fast performance.",
+	url: PROJECT_URLS.GITHUB_REPO,
+	hashtags: [
+		"TailscaleMCP",
+		"NetworkAutomation",
+		"Bun",
+		"OpenSource",
+		"DevOps",
+	],
+};
+
+const shareOptions = [
+	{
+		name: "Twitter",
+		icon: Twitter,
+		color: "hover:text-blue-400",
+		href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}&hashtags=${shareData.hashtags.join(",")}`,
+	},
+	{
+		name: "LinkedIn",
+		icon: Linkedin,
+		color: "hover:text-blue-600",
+		href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`,
+	},
+	{
+		name: "Facebook",
+		icon: Facebook,
+		color: "hover:text-blue-500",
+		href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
+	},
+	{
+		name: "Email",
+		icon: Mail,
+		color: "hover:text-green-600",
+		href: `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(`Check out this awesome project: ${shareData.description}\n\n${shareData.url}`)}`,
+	},
+];
 
 export function ShareProjectSection() {
-	const shareData = {
-		title: "Tailscale MCP Server - Intelligent Network Automation",
-		description:
-			"High-performance MCP server for Tailscale network management and automation. Built with Bun runtime for lightning-fast performance.",
-		url: "https://github.com/HexSleeves/tailscale-mcp",
-		hashtags: [
-			"TailscaleMCP",
-			"NetworkAutomation",
-			"Bun",
-			"OpenSource",
-			"DevOps",
-		],
-	};
-
-	const shareOptions = [
-		{
-			name: "Twitter",
-			icon: Twitter,
-			color: "hover:text-blue-400",
-			href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}&hashtags=${shareData.hashtags.join(",")}`,
-		},
-		{
-			name: "LinkedIn",
-			icon: Linkedin,
-			color: "hover:text-blue-600",
-			href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`,
-		},
-		{
-			name: "Facebook",
-			icon: Facebook,
-			color: "hover:text-blue-500",
-			href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
-		},
-		{
-			name: "Email",
-			icon: Mail,
-			color: "hover:text-green-600",
-			href: `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(`Check out this awesome project: ${shareData.description}\n\n${shareData.url}`)}`,
-		},
-	];
-
 	const copyToClipboard = async () => {
 		try {
 			await navigator.clipboard.writeText(shareData.url);
@@ -109,7 +109,7 @@ export function ShareProjectSection() {
 											const Icon = option.icon;
 											return (
 												<Button
-													key={index}
+													key={`${option.name}-${index}`}
 													variant="outline"
 													size="sm"
 													className={`justify-start transition-colors ${option.color}`}
@@ -164,7 +164,10 @@ export function ShareProjectSection() {
 											"Connect with like-minded developers and showcase your interest in cutting-edge tech.",
 									},
 								].map((reason, index) => (
-									<div key={index} className="flex items-start space-x-4">
+									<div
+										key={`${reason.title}-${index}`}
+										className="flex items-start space-x-4"
+									>
 										<div className="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
 											<span className="text-primary font-semibold text-sm">
 												{index + 1}
@@ -181,19 +184,6 @@ export function ShareProjectSection() {
 							</div>
 						</AnimatedSection>
 					</div>
-
-					<AnimatedSection delay={300}>
-						<div className="mt-12 text-center">
-							{/* <SocialShare
-                title={shareData.title}
-                description={shareData.description}
-                url={shareData.url}
-                hashtags={shareData.hashtags}
-                variant="expanded"
-                className="justify-center"
-              /> */}
-						</div>
-					</AnimatedSection>
 				</div>
 			</div>
 		</section>

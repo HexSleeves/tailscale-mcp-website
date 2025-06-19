@@ -131,22 +131,22 @@ async function main() {
       BUN_ENV: "production"
     }
   }
-  
+
   try {
     const { read, write } = await stdio_client(server_params)
     const session = new ClientSession(read, write)
-    
+
     // Initialize the session
     await session.initialize()
-    
+
     // List available tools
     const tools = await session.list_tools()
     console.log(\`Available tools: \${tools.tools.map(t => t.name).join(', ')}\`)
-    
+
     // Call a tool to get network status
     const result = await session.call_tool("tailscale_status", {})
     console.log("Network status:", result.content)
-    
+
     // Cleanup
     await session.close()
   } catch (error) {
@@ -254,22 +254,22 @@ class TailscaleMCPClient {
 // Usage example
 async function example() {
   const client = new TailscaleMCPClient()
-  
+
   try {
     await client.connect()
-    
+
     // Get network status
     const status = await client.getNetworkStatus()
     console.log('Network Status:', status)
-    
+
     // Ping a device
     const pingResult = await client.pingNode('100.64.0.1', 5)
     console.log('Ping Result:', pingResult)
-    
+
     // List all devices
     const devices = await client.listDevices()
     console.log('Devices:', devices)
-    
+
   } finally {
     await client.disconnect()
   }
@@ -435,11 +435,11 @@ try {
       }
     })
   });
-  
+
   if (!response.ok) {
     throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
   }
-  
+
   const result = await response.json();
   console.log('Ping result:', result);
 } catch (error) {
@@ -535,7 +535,7 @@ class NetworkMonitor {
         if (device.TailscaleIPs && device.TailscaleIPs.length > 0) {
           const ip = device.TailscaleIPs[0]
           console.log(\`Pinging \${device.Name} (\${ip})...\`)
-          
+
           try {
             const pingResult = await this.callTool({
               name: 'tailscale_ping',
@@ -567,12 +567,12 @@ class NetworkMonitor {
 // Main execution
 async function main() {
   if (!API_KEY) {
-    console.error('❌ MCP_API_KEY environment variable is required')
+    console.error(&apos;❌ MCP_API_KEY environment variable is required&apos;)
     process.exit(1)
   }
 
   const monitor = new NetworkMonitor(MCP_URL, API_KEY)
-  
+
   // Run health check every 5 minutes
   setInterval(async () => {
     await monitor.runHealthCheck()
@@ -615,7 +615,7 @@ class RouteManager {
 
   async start(): Promise<void> {
     if (this.isRunning) {
-      console.log('⚠️  Route manager is already running')
+              console.log(&apos;⚠️  Route manager is already running&apos;)
       return
     }
 
@@ -659,7 +659,7 @@ class RouteManager {
       // Get current network status
       const status = await this.client.getNetworkStatus()
       const currentRoutes = this.extractAdvertisedRoutes(status)
-      
+
       // Check for missing routes
       const missingRoutes = this.config.routes.filter(
         route => !currentRoutes.includes(route)
@@ -690,8 +690,8 @@ class RouteManager {
         console.log(\`✅ Successfully advertised routes: \${routes.join(', ')}\`)
         return
       } catch (error) {
-        console.error(\`❌ Attempt \${attempt} failed:, error\`)
-        
+        console.error(\`❌ Attempt \${attempt} failed:\`, error)
+
         if (attempt < this.config.retryAttempts) {
           await this.sleep(2000 * attempt) // Exponential backoff
         }
@@ -800,7 +800,7 @@ pm2 stop network-monitor route-manager`}
 							</h4>
 							<p className="text-sm text-muted-foreground mb-2">
 								Always implement proper error handling in your MCP client code
-								with Bun's enhanced error reporting:
+								with Bun&apos;s enhanced error reporting:
 							</p>
 							<CodeBlock
 								code={`// Enhanced error handling with Bun
@@ -809,15 +809,15 @@ try {
     name: 'tailscale_status',
     arguments: {}
   })
-  
+
   if (result.isError) {
     console.error('Tool call failed:', result.content)
     return
   }
-  
+
   // Process successful result
   console.log('Status:', result.content)
-  
+
 } catch (error) {
   // Bun provides enhanced error stack traces
   console.error('MCP client error:', {
@@ -825,13 +825,13 @@ try {
     stack: error.stack,
     cause: error.cause
   })
-  
+
   // Implement retry logic with exponential backoff
   await retryWithBackoff(() => client.callTool(...), 3)
 }
 
 async function retryWithBackoff<T>(
-  fn: () => Promise<T>, 
+  fn: () => Promise<T>,
   maxRetries: number
 ): Promise<T> {
   for (let i = 0; i < maxRetries; i++) {
@@ -839,7 +839,7 @@ async function retryWithBackoff<T>(
       return await fn()
     } catch (error) {
       if (i === maxRetries - 1) throw error
-      await new Promise(resolve => 
+      await new Promise(resolve =>
         setTimeout(resolve, Math.pow(2, i) * 1000)
       )
     }
@@ -856,7 +856,7 @@ async function retryWithBackoff<T>(
 								<span>Performance Optimization</span>
 							</h4>
 							<p className="text-sm text-muted-foreground mb-2">
-								Leverage Bun's performance features for optimal MCP client
+								Leverage Bun&apos;s performance features for optimal MCP client
 								performance:
 							</p>
 							<CodeBlock
@@ -866,29 +866,29 @@ import { performance } from 'perf_hooks'
 class OptimizedMCPClient {
   private connectionPool: Map<string, any> = new Map()
   private requestCache: Map<string, any> = new Map()
-  
+
   async callToolCached(name: string, args: any, ttl: number = 30000) {
     const cacheKey = \`\${name}:\${JSON.stringify(args)}\`
     const cached = this.requestCache.get(cacheKey)
-    
+
     if (cached && Date.now() - cached.timestamp < ttl) {
       return cached.result
     }
-    
+
     const startTime = performance.now()
     const result = await this.callTool({ name, arguments: args })
     const duration = performance.now() - startTime
-    
+
     // Cache successful results
     this.requestCache.set(cacheKey, {
       result,
       timestamp: Date.now()
     })
-    
+
     console.log(\`Tool \${name} executed in \${duration.toFixed(2)}ms\`)
     return result
   }
-  
+
   // Use Bun's built-in compression for large payloads
   async sendLargePayload(data: any) {
     const compressed = await Bun.gzipSync(JSON.stringify(data))
@@ -912,37 +912,37 @@ if (process.env.NODE_ENV === 'production') {
 								<span>Resource Management</span>
 							</h4>
 							<p className="text-sm text-muted-foreground mb-2">
-								Properly manage resources and connections with Bun's lifecycle
-								hooks:
+								Properly manage resources and connections with Bun&apos;s
+								lifecycle hooks:
 							</p>
 							<CodeBlock
 								code={`// Resource management with Bun
 class ManagedMCPClient {
   private client: any
   private cleanupTasks: (() => Promise<void>)[] = []
-  
+
   constructor() {
     // Register cleanup on process exit
     process.on('beforeExit', this.cleanup.bind(this))
     process.on('SIGINT', this.gracefulShutdown.bind(this))
     process.on('SIGTERM', this.gracefulShutdown.bind(this))
   }
-  
+
   async connect() {
     this.client = new MCPClient()
     await this.client.connect()
-    
+
     // Register cleanup task
     this.cleanupTasks.push(async () => {
       await this.client.close()
     })
   }
-  
+
   private async cleanup() {
     console.log('🧹 Cleaning up resources...')
     await Promise.all(this.cleanupTasks.map(task => task()))
   }
-  
+
   private async gracefulShutdown(signal: string) {
     console.log(\`📡 Received \${signal}, shutting down gracefully...\`)
     await this.cleanup()

@@ -5,7 +5,31 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
+
+const ctaStats = [
+	{
+		icon: Star,
+		label: "GitHub Stars",
+		value: "GitHub",
+		link: PROJECT_URLS.GITHUB_REPO,
+	},
+	{
+		icon: Download,
+		label: "Downloads",
+		value: "npm",
+		link: PROJECT_URLS.NPM_PACKAGE,
+	},
+	{
+		icon: Users,
+		label: "Contributors",
+		value: "Active",
+		link: PROJECT_URLS.GITHUB_CONTRIBUTORS,
+	},
+];
+
+const technologies = ["TypeScript", "Bun Runtime", "Docker Ready", "CI/CD"];
 
 export function EnhancedCTA() {
 	return (
@@ -37,26 +61,7 @@ export function EnhancedCTA() {
 
 							{/* Stats Row */}
 							<div className="flex flex-wrap justify-center gap-6 mb-8">
-								{[
-									{
-										icon: Star,
-										label: "GitHub Stars",
-										value: "GitHub",
-										link: "https://github.com/HexSleeves/tailscale-mcp",
-									},
-									{
-										icon: Download,
-										label: "Downloads",
-										value: "npm",
-										link: "https://www.npmjs.com/package/tailscale-mcp-server",
-									},
-									{
-										icon: Users,
-										label: "Contributors",
-										value: "Active",
-										link: "https://github.com/HexSleeves/tailscale-mcp/graphs/contributors",
-									},
-								].map((stat, index) => {
+								{ctaStats.map((stat, index) => {
 									const Icon = stat.icon;
 									return (
 										<Link
@@ -97,7 +102,7 @@ export function EnhancedCTA() {
 									asChild
 								>
 									<Link
-										href="https://github.com/HexSleeves/tailscale-mcp"
+										href={PROJECT_URLS.GITHUB_REPO}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
@@ -113,13 +118,11 @@ export function EnhancedCTA() {
 									Open source • MIT License • Community driven
 								</p>
 								<div className="flex flex-wrap justify-center gap-4">
-									{["TypeScript", "Bun Runtime", "Docker Ready", "CI/CD"].map(
-										(tech) => (
-											<Badge key={tech} variant="outline" className="text-xs">
-												{tech}
-											</Badge>
-										),
-									)}
+									{technologies.map((tech) => (
+										<Badge key={tech} variant="outline" className="text-xs">
+											{tech}
+										</Badge>
+									))}
 								</div>
 							</div>
 						</CardContent>

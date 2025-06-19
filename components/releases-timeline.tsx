@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc/client";
+import { PROJECT_URLS } from "@/lib/constants";
 import { AnimatedSection } from "./animated-section";
 
 interface ReleasesTimelineProps {
@@ -37,7 +38,7 @@ export function ReleasesTimeline({
 			refetchOnWindowFocus: false,
 			refetchOnMount: true,
 			staleTime: 30 * 60 * 1000, // 30 minutes
-			cacheTime: 2 * 60 * 60 * 1000, // 2 hours
+			gcTime: 2 * 60 * 60 * 1000, // 2 hours
 		},
 	);
 
@@ -82,7 +83,7 @@ export function ReleasesTimeline({
 								Latest Releases
 							</CardTitle>
 							<Link
-								href="https://github.com/HexSleeves/tailscale-mcp/releases"
+								href={PROJECT_URLS.GITHUB_RELEASES}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -96,16 +97,18 @@ export function ReleasesTimeline({
 					<CardContent>
 						{isLoading ? (
 							<div className="space-y-6">
-								{Array.from({ length: limit }).map((_, index) => (
-									<div key={index} className="flex space-x-4">
-										<Skeleton className="h-10 w-10 rounded-full" />
-										<div className="flex-1 space-y-2">
-											<Skeleton className="h-5 w-32" />
-											<Skeleton className="h-4 w-24" />
-											<Skeleton className="h-16 w-full" />
+								{Array.from({ length: limit }).map((_, index) => {
+									return (
+										<div key={index} className="flex space-x-4">
+											<Skeleton className="h-10 w-10 rounded-full" />
+											<div className="flex-1 space-y-2">
+												<Skeleton className="h-5 w-32" />
+												<Skeleton className="h-4 w-24" />
+												<Skeleton className="h-16 w-full" />
+											</div>
 										</div>
-									</div>
-								))}
+									);
+								})}
 							</div>
 						) : releases.length > 0 ? (
 							<div className="space-y-6">

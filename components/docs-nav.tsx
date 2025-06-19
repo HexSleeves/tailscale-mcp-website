@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PROJECT_URLS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -90,7 +91,7 @@ export function DocsNav() {
 						<ExternalLink className="h-3 w-3 ml-auto opacity-70" />
 					</Link>
 					<Link
-						href="https://www.npmjs.com/package/tailscale-mcp-server"
+						href={PROJECT_URLS.NPM_PACKAGE}
 						className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-muted text-muted-foreground hover:text-foreground"
 						target="_blank"
 						rel="noopener noreferrer"
