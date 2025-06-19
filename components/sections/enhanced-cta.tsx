@@ -2,11 +2,11 @@
 
 import { ArrowRight, Download, Github, Star, Users } from "lucide-react";
 import Link from "next/link";
+import { AnimatedSection } from "@/components/shared/animated-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PROJECT_URLS } from "@/lib/constants";
-import { AnimatedSection } from "./animated-section";
 
 const ctaStats = [
 	{

@@ -1,8 +1,8 @@
 import { Network } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
-import { DocsNav } from "./docs-nav";
-import { ThemeToggle } from "./theme-toggle";
+import { DocsNav } from "@/components/layout/docs-nav";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 interface DocsLayoutProps {
 	children: React.ReactNode;

@@ -1,6 +1,12 @@
 {
 	"permissions": {
-		"allow": ["Bash(rg:*)"],
+		"allow": [
+			"Bash(rg:*)",
+			"Bash(find:*)",
+			"Bash(grep:*)",
+			"Bash(rm:*)",
+			"Bash(mv:*)"
+		],
 		"deny": []
 	}
 }

@@ -1,5 +1,5 @@
 import { CheckCircle, Code, Info, Terminal, Zap } from "lucide-react";
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/shared/code-block";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
 	Card,

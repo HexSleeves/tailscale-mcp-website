@@ -10,15 +10,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useId } from "react";
-import { AnimatedSection } from "@/components/animated-section";
-import { ContributorsShowcase } from "@/components/contributors-showcase";
-import { EnhancedCTA } from "@/components/enhanced-cta";
-import { EnhancedFeatures } from "@/components/enhanced-features";
-import { EnhancedHero } from "@/components/enhanced-hero";
-import { ReleasesTimeline } from "@/components/releases-timeline";
-import { ResourceLinks } from "@/components/resource-links";
-import { ShareProjectSection } from "@/components/share-project-section";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ContributorsShowcase } from "@/components/sections/contributors-showcase";
+import { EnhancedCTA } from "@/components/sections/enhanced-cta";
+import { EnhancedFeatures } from "@/components/sections/enhanced-features";
+import { EnhancedHero } from "@/components/sections/enhanced-hero";
+import { ReleasesTimeline } from "@/components/sections/releases-timeline";
+import { ResourceLinks } from "@/components/sections/resource-links";
+import { ShareProjectSection } from "@/components/sections/share-project-section";
+import { AnimatedSection } from "@/components/shared/animated-section";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { PROJECT_URLS } from "@/lib/constants";
 
@@ -26,24 +26,6 @@ type FooterSection = {
 	title: string;
 	links: { name: string; href: string; external?: boolean }[];
 };
-
-const _keyBenefits = [
-	{
-		title: "Enhanced Security Posture",
-		description:
-			"Leverage Tailscale's zero-trust architecture with additional MCP-based security controls and automated threat response capabilities.",
-	},
-	{
-		title: "Developer-Friendly Integration",
-		description:
-			"Comprehensive APIs, extensive documentation, and TypeScript support make integration straightforward for developers of all skill levels.",
-	},
-	{
-		title: "Scalable Architecture",
-		description:
-			"Built to handle networks of any size, from small development teams to enterprise-scale deployments with thousands of nodes.",
-	},
-];
 
 const footerSections: FooterSection[] = [
 	{

@@ -9,6 +9,7 @@ import {
 	Zap,
 } from "lucide-react";
 import { useId } from "react";
+import { AnimatedSection } from "@/components/shared/animated-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +19,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { AnimatedSection } from "./animated-section";
 
 const features = [
 	{

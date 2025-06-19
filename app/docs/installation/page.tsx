@@ -1,6 +1,6 @@
 import { AlertTriangle, CheckCircle, Info } from "lucide-react";
 import { useId } from "react";
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/shared/code-block";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
 	Card,

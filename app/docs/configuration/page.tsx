@@ -6,7 +6,7 @@ import {
 	Settings,
 	Shield,
 } from "lucide-react";
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/shared/code-block";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import {

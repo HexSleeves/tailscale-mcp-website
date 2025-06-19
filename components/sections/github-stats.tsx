@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { HydrationSafeWrapper } from "@/components/shared/hydration-safe-wrapper";
+import { SafeDateFormatter } from "@/components/shared/safe-date-formatter";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,8 +24,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PROJECT_URLS } from "@/lib/constants";
 import { trpc } from "@/lib/trpc/client";
 import { formatNumber } from "@/lib/utils";
-import { HydrationSafeWrapper } from "./hydration-safe-wrapper";
-import { SafeDateFormatter } from "./safe-date-formatter";
 
 interface GitHubStatsProps {
 	variant?: "default" | "compact" | "detailed";

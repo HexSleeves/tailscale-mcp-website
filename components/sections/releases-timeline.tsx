@@ -9,6 +9,7 @@ import {
 	Tag,
 } from "lucide-react";
 import Link from "next/link";
+import { AnimatedSection } from "@/components/shared/animated-section";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PROJECT_URLS } from "@/lib/constants";
 import { trpc } from "@/lib/trpc/client";
-import { AnimatedSection } from "./animated-section";
 
 interface ReleasesTimelineProps {
 	limit?: number;

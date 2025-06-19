@@ -3,12 +3,12 @@
 import { ArrowRight, Book, Github, Play, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { GitHubStats } from "@/components/sections/github-stats";
+import { AnimatedSection } from "@/components/shared/animated-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PROJECT_URLS } from "@/lib/constants";
-import { AnimatedSection } from "./animated-section";
-import { GitHubStats } from "./github-stats";
 
 const trustedCompanies = [
 	{ name: "Vercel", url: "https://vercel.com" },

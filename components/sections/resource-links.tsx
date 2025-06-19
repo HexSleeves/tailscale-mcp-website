@@ -2,11 +2,11 @@
 
 import { Book, Code, ExternalLink, MessageCircle, Users } from "lucide-react";
 import Link from "next/link";
+import { AnimatedSection } from "@/components/shared/animated-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PROJECT_URLS } from "@/lib/constants";
-import { AnimatedSection } from "./animated-section";
 
 const resources = [
 	{
