@@ -123,9 +123,9 @@ export function EnhancedFeatures() {
 									</CardHeader>
 									<CardContent className="pt-0">
 										<div className="space-y-2 mb-6">
-											{feature.benefits.map((benefit, benefitIndex) => (
+											{feature.benefits.map((benefit) => (
 												<div
-													key={benefitIndex}
+													key={benefit}
 													className="flex items-center text-sm text-muted-foreground"
 												>
 													<CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0" />

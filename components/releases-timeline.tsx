@@ -14,8 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trpc } from "@/lib/trpc/client";
 import { PROJECT_URLS } from "@/lib/constants";
+import { trpc } from "@/lib/trpc/client";
 import { AnimatedSection } from "./animated-section";
 
 interface ReleasesTimelineProps {
@@ -99,6 +99,7 @@ export function ReleasesTimeline({
 							<div className="space-y-6">
 								{Array.from({ length: limit }).map((_, index) => {
 									return (
+										// biome-ignore lint/suspicious/noArrayIndexKey: loading state
 										<div key={index} className="flex space-x-4">
 											<Skeleton className="h-10 w-10 rounded-full" />
 											<div className="flex-1 space-y-2">

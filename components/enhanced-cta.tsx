@@ -61,11 +61,11 @@ export function EnhancedCTA() {
 
 							{/* Stats Row */}
 							<div className="flex flex-wrap justify-center gap-6 mb-8">
-								{ctaStats.map((stat, index) => {
+								{ctaStats.map((stat) => {
 									const Icon = stat.icon;
 									return (
 										<Link
-											key={index}
+											key={stat.label}
 											href={stat.link}
 											target="_blank"
 											rel="noopener noreferrer"

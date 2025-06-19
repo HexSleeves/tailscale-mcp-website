@@ -19,9 +19,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PROJECT_URLS } from "@/lib/constants";
 import { trpc } from "@/lib/trpc/client";
 import { formatNumber } from "@/lib/utils";
-import { PROJECT_URLS } from "@/lib/constants";
 import { HydrationSafeWrapper } from "./hydration-safe-wrapper";
 import { SafeDateFormatter } from "./safe-date-formatter";
 
@@ -355,9 +355,9 @@ export function GitHubStats({
 				)}
 
 				<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-					{statItems.map((item, index) => (
+					{statItems.map((item) => (
 						<Link
-							key={index}
+							key={item.label}
 							href={item.link}
 							target="_blank"
 							rel="noopener noreferrer"
@@ -442,9 +442,9 @@ export function GitHubStats({
 					</div>
 
 					<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-						{statItems.map((item, index) => (
+						{statItems.map((item) => (
 							<Link
-								key={index}
+								key={item.label}
 								href={item.link}
 								target="_blank"
 								rel="noopener noreferrer"

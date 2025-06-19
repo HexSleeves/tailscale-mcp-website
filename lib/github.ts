@@ -99,7 +99,7 @@ class APICache {
 	}
 }
 
-import { API_ENDPOINTS, REPO_CONFIG, PROJECT_META } from "./constants";
+import { API_ENDPOINTS, PROJECT_META, REPO_CONFIG } from "./constants";
 
 export class GitHubAPI {
 	private baseUrl = API_ENDPOINTS.GITHUB_API;
@@ -130,7 +130,7 @@ export class GitHubAPI {
 
 		// Add GitHub token if available for higher rate limits
 		if (process.env.GITHUB_TOKEN) {
-			headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
+			headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 			console.log("Using GitHub token for authentication");
 		} else {
 			console.warn(
@@ -324,7 +324,7 @@ export class GitHubAPI {
 		};
 
 		if (process.env.GITHUB_TOKEN) {
-			headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
+			headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 		}
 
 		try {

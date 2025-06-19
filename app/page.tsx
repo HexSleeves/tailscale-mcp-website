@@ -27,7 +27,7 @@ type FooterSection = {
 	links: { name: string; href: string; external?: boolean }[];
 };
 
-const keyBenefits = [
+const _keyBenefits = [
 	{
 		title: "Enhanced Security Posture",
 		description:
@@ -248,7 +248,7 @@ export default function TailscaleMCPLanding() {
 								</h2>
 								<div className="space-y-6">
 									{benefits.map((benefit, index) => (
-										<AnimatedSection key={index} delay={index * 100}>
+										<AnimatedSection key={benefit.title} delay={index * 100}>
 											<div className="flex items-start space-x-4 group">
 												<CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400 mt-1 flex-shrink-0 transition-all duration-300 group-hover:scale-110" />
 												<div>

@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trpc } from "@/lib/trpc/client";
 import { PROJECT_URLS } from "@/lib/constants";
+import { trpc } from "@/lib/trpc/client";
 import { AnimatedSection } from "./animated-section";
 
 interface ContributorsShowcaseProps {
@@ -101,7 +101,8 @@ export function ContributorsShowcase({
 							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
 								{Array.from({ length: limit }).map((_, index) => (
 									<div
-										key={`index-${index}`}
+										// biome-ignore lint/suspicious/noArrayIndexKey: loading state
+										key={index}
 										className="flex flex-col items-center space-y-2"
 									>
 										<Skeleton className="h-16 w-16 rounded-full" />
