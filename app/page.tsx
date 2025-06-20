@@ -1,22 +1,11 @@
-import {
-	ArrowRight,
-	CheckCircle,
-	ExternalLink,
-	Github,
-	Menu,
-	Network,
-	Twitter,
-} from "lucide-react";
-import Image from "next/image";
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import { ArrowRight, ExternalLink, Menu, Network, Twitter } from "lucide-react";
 import Link from "next/link";
-import { useId } from "react";
 import { ContributorsShowcase } from "@/components/sections/contributors-showcase";
-import { EnhancedCTA } from "@/components/sections/enhanced-cta";
 import { EnhancedFeatures } from "@/components/sections/enhanced-features";
 import { EnhancedHero } from "@/components/sections/enhanced-hero";
 import { ReleasesTimeline } from "@/components/sections/releases-timeline";
 import { ResourceLinks } from "@/components/sections/resource-links";
-import { ShareProjectSection } from "@/components/sections/share-project-section";
 import { AnimatedSection } from "@/components/shared/animated-section";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -74,7 +63,6 @@ const allFooterSections: FooterSection[] = [
 		title: "Product",
 		links: [
 			{ name: "Features", href: "#features" },
-			{ name: "Benefits", href: "#benefits" },
 			{ name: "Documentation", href: "/docs" },
 			{ name: "API Reference", href: "/docs/usage" },
 		],
@@ -107,29 +95,6 @@ const allFooterSections: FooterSection[] = [
 	...footerSections.filter((section) => section.title === "Resources"),
 ];
 
-const benefits = [
-	{
-		title: "Simplified Network Management",
-		description:
-			"Automate complex network operations with intelligent agents that understand your infrastructure and can execute commands safely and efficiently.",
-	},
-	{
-		title: "Enhanced Security Posture",
-		description:
-			"Leverage Tailscale's zero-trust architecture with additional MCP-based security controls and automated threat response capabilities.",
-	},
-	{
-		title: "Developer-Friendly Integration",
-		description:
-			"Comprehensive APIs, extensive documentation, and TypeScript support make integration straightforward for developers of all skill levels.",
-	},
-	{
-		title: "Scalable Architecture",
-		description:
-			"Built to handle networks of any size, from small development teams to enterprise-scale deployments with thousands of nodes.",
-	},
-];
-
 export default function TailscaleMCPLanding() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 w-full">
@@ -154,12 +119,6 @@ export default function TailscaleMCPLanding() {
 							className="text-sm font-medium hover:text-primary transition-colors duration-200 focus-visible:focus-visible"
 						>
 							Features
-						</Link>
-						<Link
-							href="#benefits"
-							className="text-sm font-medium hover:text-primary transition-colors duration-200 focus-visible:focus-visible"
-						>
-							Benefits
 						</Link>
 						<Link
 							href="/docs"
@@ -188,7 +147,7 @@ export default function TailscaleMCPLanding() {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<Github className="mr-2 h-4 w-4" />
+								<SiGithub className="mr-2 h-4 w-4" />
 								GitHub
 							</Link>
 						</Button>
@@ -217,57 +176,8 @@ export default function TailscaleMCPLanding() {
 				{/* Features Section */}
 				<EnhancedFeatures />
 
-				{/* Benefits Section */}
-				<section
-					id={useId()}
-					className="py-20 bg-gradient-to-r from-primary/5 via-transparent to-purple-600/5"
-				>
-					<div className="container">
-						<div className="grid lg:grid-cols-2 gap-12 items-center">
-							<AnimatedSection>
-								<h2 className="text-3xl md:text-4xl font-bold mb-6">
-									Why Choose Tailscale MCP Server?
-								</h2>
-								<div className="space-y-6">
-									{benefits.map((benefit, index) => (
-										<AnimatedSection key={benefit.title} delay={index * 100}>
-											<div className="flex items-start space-x-4 group">
-												<CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400 mt-1 flex-shrink-0 transition-all duration-300 group-hover:scale-110" />
-												<div>
-													<h3 className="font-semibold mb-2 text-lg">
-														{benefit.title}
-													</h3>
-													<p className="text-muted-foreground leading-relaxed">
-														{benefit.description}
-													</p>
-												</div>
-											</div>
-										</AnimatedSection>
-									))}
-								</div>
-							</AnimatedSection>
-
-							<AnimatedSection delay={200}>
-								<div className="relative">
-									<Image
-										src="/placeholder.svg?height=500&width=600&text=Network+Architecture"
-										alt="Network architecture diagram showing MCP server integration with Tailscale infrastructure"
-										width={600}
-										height={500}
-										className="rounded-lg shadow-lg transition-all duration-500 hover:shadow-xl animate-float"
-									/>
-									<div className="absolute inset-0 bg-gradient-to-t from-background/10 to-transparent rounded-lg pointer-events-none" />
-								</div>
-							</AnimatedSection>
-						</div>
-					</div>
-				</section>
-
 				{/* Resources Section */}
 				<ResourceLinks />
-
-				{/* Share Project Section */}
-				<ShareProjectSection />
 
 				{/* Contributors Section */}
 				<ContributorsShowcase />
@@ -275,11 +185,9 @@ export default function TailscaleMCPLanding() {
 				{/* Releases Timeline */}
 				<ReleasesTimeline />
 
-				{/* Final CTA Section */}
-				<EnhancedCTA />
-
 				{/* Footer */}
-				<footer id={useId()} className="bg-card border-t py-16">
+				{/* biome-ignore lint/nursery/useUniqueElementIds: We use page navigation ids */}
+				<footer id="contact" className="bg-card border-t py-16">
 					<div className="container">
 						<AnimatedSection>
 							<div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -304,7 +212,7 @@ export default function TailscaleMCPLanding() {
 											target="_blank"
 											rel="noopener noreferrer"
 										>
-											<Github className="h-5 w-5" />
+											<SiGithub className="h-5 w-5" />
 										</Link>
 										<Link
 											href="https://twitter.com/tailscale"

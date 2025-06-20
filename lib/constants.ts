@@ -27,7 +27,7 @@ export const PROJECT_URLS = {
 	GITHUB_TYPES: "https://github.com/HexSleeves/tailscale-mcp/blob/main/types",
 
 	// NPM Package
-	NPM_PACKAGE: "https://www.npmjs.com/package/tailscale-mcp-server",
+	NPM_PACKAGE: "https://www.npmjs.com/package/@hexsleeves/tailscale-mcp-server",
 
 	// External Services
 	TAILSCALE: "https://tailscale.com",

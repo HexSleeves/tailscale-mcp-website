@@ -1,6 +1,15 @@
 "use client";
 
-import { ArrowRight, Book, Github, Play, Zap } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import {
+	ArrowRight,
+	Book,
+	Download,
+	Play,
+	Star,
+	Users,
+	Zap,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { GitHubStats } from "@/components/sections/github-stats";
@@ -10,11 +19,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PROJECT_URLS } from "@/lib/constants";
 
-const trustedCompanies = [
-	{ name: "Vercel", url: "https://vercel.com" },
-	{ name: "GitHub", url: "https://github.com" },
-	{ name: "Tailscale", url: "https://tailscale.com" },
-	{ name: "OpenAI", url: "https://openai.com" },
+const _ctaStats = [
+	{
+		icon: Star,
+		label: "GitHub Stars",
+		value: "GitHub",
+		link: PROJECT_URLS.GITHUB_REPO,
+	},
+	{
+		icon: Download,
+		label: "Downloads",
+		value: "npm",
+		link: PROJECT_URLS.NPM_PACKAGE,
+	},
+	{
+		icon: Users,
+		label: "Contributors",
+		value: "Active",
+		link: PROJECT_URLS.GITHUB_CONTRIBUTORS,
+	},
 ];
 
 export function EnhancedHero() {
@@ -91,7 +114,7 @@ export function EnhancedHero() {
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									<Github className="mr-2 h-5 w-5" />
+									<SiGithub className="mr-2 h-5 w-5" />
 									GitHub
 								</Link>
 							</Button>
@@ -100,7 +123,7 @@ export function EnhancedHero() {
 
 					{/* Real-time Stats */}
 					<div className="pt-8">
-						<GitHubStats variant="compact" />
+						<GitHubStats variant="detailed" />
 					</div>
 
 					{/* Hero Image */}
@@ -130,28 +153,6 @@ export function EnhancedHero() {
 								</CardContent>
 							</Card>
 						</div>
-					</div>
-
-					{/* Trust Indicators */}
-					<div className="flex flex-wrap justify-center items-center gap-8 pt-8 opacity-60">
-						<div className="text-sm text-muted-foreground">
-							Trusted by developers at
-						</div>
-						{trustedCompanies.map((company) => (
-							<Link
-								key={company.name}
-								href={company.url}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<Badge
-									variant="outline"
-									className="text-xs hover:bg-muted transition-colors"
-								>
-									{company.name}
-								</Badge>
-							</Link>
-						))}
 					</div>
 				</AnimatedSection>
 			</div>

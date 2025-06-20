@@ -8,7 +8,6 @@ import {
 	Terminal,
 	Zap,
 } from "lucide-react";
-import { useId } from "react";
 import { AnimatedSection } from "@/components/shared/animated-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -77,8 +76,9 @@ const features = [
 
 export function EnhancedFeatures() {
 	return (
+		// biome-ignore lint/nursery/useUniqueElementIds: We use page
 		<section
-			id={useId()}
+			id="features"
 			className="py-20 bg-gradient-to-b from-background to-muted/20"
 		>
 			<div className="container px-4 md:px-6">

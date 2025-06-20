@@ -1,10 +1,8 @@
 "use client";
 
 import {
-	Activity,
 	AlertCircle,
 	Download,
-	ExternalLink,
 	Eye,
 	GitFork,
 	Package,
@@ -13,9 +11,7 @@ import {
 	Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { HydrationSafeWrapper } from "@/components/shared/hydration-safe-wrapper";
-import { SafeDateFormatter } from "@/components/shared/safe-date-formatter";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,18 +32,12 @@ export function GitHubStats({
 	showRefresh = false,
 	className = "",
 }: GitHubStatsProps) {
-	const [loadTimes, setLoadTimes] = useState<Record<string, number>>({});
-	const [startTime] = useState(() =>
-		typeof window !== "undefined" ? performance.now() : 0,
-	);
-
 	const {
 		data: statsData,
 		isLoading: statsLoading,
 		error: statsError,
 		refetch: refetchStats,
 		isRefetching: isRefetchingStats,
-		dataUpdatedAt: statsUpdatedAt,
 	} = trpc.github.getStats.useQuery(undefined, {
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		gcTime: 15 * 60 * 1000, // 15 minutes (v5 optimization)
@@ -67,7 +57,6 @@ export function GitHubStats({
 		isLoading: npmLoading,
 		refetch: refetchNpm,
 		isRefetching: isRefetchingNpm,
-		dataUpdatedAt: npmUpdatedAt,
 	} = trpc.github.getNpmDownloads.useQuery(undefined, {
 		staleTime: 60 * 60 * 1000, // 1 hour
 		gcTime: 2 * 60 * 60 * 1000, // 2 hours (v5 optimization)
@@ -81,31 +70,6 @@ export function GitHubStats({
 		},
 		retryDelay: (attemptIndex) => Math.min(2000 * 2 ** attemptIndex, 60000),
 	});
-
-	// Track load times for performance monitoring (client-side only)
-	useEffect(() => {
-		if (
-			typeof window !== "undefined" &&
-			statsData &&
-			!statsLoading &&
-			!loadTimes.stats
-		) {
-			const loadTime = performance.now() - startTime;
-			setLoadTimes((prev) => ({ ...prev, stats: loadTime }));
-		}
-	}, [statsData, statsLoading, startTime, loadTimes.stats]);
-
-	useEffect(() => {
-		if (
-			typeof window !== "undefined" &&
-			npmData &&
-			!npmLoading &&
-			!loadTimes.npm
-		) {
-			const loadTime = performance.now() - startTime;
-			setLoadTimes((prev) => ({ ...prev, npm: loadTime }));
-		}
-	}, [npmData, npmLoading, startTime, loadTimes.npm]);
 
 	const handleRefresh = async () => {
 		if (typeof window !== "undefined") {
@@ -122,15 +86,6 @@ export function GitHubStats({
 	const npmDownloads = npmData?.data;
 	const isRefreshing = isRefetchingStats || isRefetchingNpm;
 
-	// Calculate cache age for performance insights (client-side only)
-	const getCacheAge = (updatedAt: number) => {
-		if (typeof window === "undefined") return "Unknown";
-		const ageMs = Date.now() - updatedAt;
-		if (ageMs < 60000) return `${Math.round(ageMs / 1000)}s ago`;
-		if (ageMs < 3600000) return `${Math.round(ageMs / 60000)}m ago`;
-		return `${Math.round(ageMs / 3600000)}h ago`;
-	};
-
 	if (statsError) {
 		return (
 			<Alert className={className} variant="destructive">
@@ -138,23 +93,8 @@ export function GitHubStats({
 				<AlertDescription className="flex items-center justify-between">
 					<div>
 						<span>Failed to load GitHub data: {statsError?.message}</span>
-						<div className="mt-2 flex items-center gap-4">
-							<Link
-								href="/diagnostics"
-								className="text-sm underline flex items-center gap-1"
-							>
-								<ExternalLink className="h-3 w-3" />
-								Run API Diagnostics
-							</Link>
-							<Link
-								href="/performance"
-								className="text-sm underline flex items-center gap-1"
-							>
-								<Activity className="h-3 w-3" />
-								Performance Monitor
-							</Link>
-						</div>
 					</div>
+
 					{showRefresh && (
 						<Button
 							variant="ghost"
@@ -196,9 +136,6 @@ export function GitHubStats({
 							>
 								<Star className="h-3 w-3" />
 								{formatNumber(stats?.stars || 0)}
-								{loadTimes.stats && loadTimes.stats < 100 && (
-									<span className="text-xs text-green-600 ml-1">⚡</span>
-								)}
 							</Badge>
 						</Link>
 						<Link
@@ -216,9 +153,6 @@ export function GitHubStats({
 									: formatNumber(npmDownloads?.downloads || 0)}
 								{isRefetchingNpm && (
 									<RefreshCw className="h-3 w-3 animate-spin ml-1" />
-								)}
-								{loadTimes.npm && loadTimes.npm < 100 && (
-									<span className="text-xs text-green-600 ml-1">⚡</span>
 								)}
 							</Badge>
 						</Link>
@@ -293,18 +227,6 @@ export function GitHubStats({
 				<div className="flex items-center justify-between">
 					<h3 className="text-lg font-semibold">Project Statistics</h3>
 					<div className="flex items-center gap-2">
-						<Link href="/performance">
-							<Button variant="outline" size="sm">
-								<Activity className="h-4 w-4 mr-2" />
-								Performance
-							</Button>
-						</Link>
-						<Link href="/diagnostics">
-							<Button variant="outline" size="sm">
-								<ExternalLink className="h-4 w-4 mr-2" />
-								Diagnostics
-							</Button>
-						</Link>
 						{showRefresh && (
 							<Button
 								variant="ghost"
@@ -320,39 +242,6 @@ export function GitHubStats({
 						)}
 					</div>
 				</div>
-
-				{/* Performance Indicators */}
-				{(loadTimes.stats || loadTimes.npm) && (
-					<Alert>
-						<Activity className="h-4 w-4" />
-						<AlertDescription>
-							<div className="flex items-center gap-4 text-sm">
-								{loadTimes.stats && (
-									<span>
-										GitHub: <strong>{loadTimes.stats.toFixed(2)}ms</strong>
-										{loadTimes.stats < 100 && (
-											<span className="text-green-600 ml-1">⚡ Fast</span>
-										)}
-									</span>
-								)}
-								{loadTimes.npm && (
-									<span>
-										NPM: <strong>{loadTimes.npm.toFixed(2)}ms</strong>
-										{loadTimes.npm < 100 && (
-											<span className="text-green-600 ml-1">⚡ Fast</span>
-										)}
-									</span>
-								)}
-								<span className="text-muted-foreground">
-									Cache updated:{" "}
-									{getCacheAge(
-										Math.max(statsUpdatedAt || 0, npmUpdatedAt || 0),
-									)}
-								</span>
-							</div>
-						</AlertDescription>
-					</Alert>
-				)}
 
 				<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
 					{statItems.map((item) => (
@@ -387,36 +276,6 @@ export function GitHubStats({
 						</Link>
 					))}
 				</div>
-
-				{/* Repository Info */}
-				{stats && (
-					<div className="space-y-2">
-						<div className="flex items-center justify-between">
-							<h4 className="text-sm font-medium">Repository</h4>
-							<Badge variant="outline">{stats.language || "Unknown"}</Badge>
-						</div>
-						<p className="text-sm text-muted-foreground">
-							{stats.description || "No description available"}
-						</p>
-						<div className="flex items-center gap-2 text-xs text-muted-foreground">
-							<span>
-								Updated{" "}
-								<SafeDateFormatter
-									date={stats.updatedAt}
-									formatType="relative"
-								/>
-							</span>
-							<span>•</span>
-							<span>
-								Created{" "}
-								<SafeDateFormatter
-									date={stats.createdAt}
-									formatType="relative"
-								/>
-							</span>
-						</div>
-					</div>
-				)}
 			</HydrationSafeWrapper>
 		);
 	}
@@ -429,8 +288,8 @@ export function GitHubStats({
 						<h3 className="text-lg font-semibold">GitHub Stats</h3>
 						{showRefresh && (
 							<Button
-								variant="ghost"
 								size="sm"
+								variant="ghost"
 								onClick={handleRefresh}
 								disabled={statsLoading || npmLoading || isRefreshing}
 							>
@@ -470,26 +329,6 @@ export function GitHubStats({
 							</Link>
 						))}
 					</div>
-
-					{/* Performance Indicators */}
-					{(loadTimes.stats || loadTimes.npm) && (
-						<div className="mt-4 text-xs text-muted-foreground flex items-center justify-between">
-							<div className="flex items-center gap-2">
-								{loadTimes.stats && loadTimes.stats < 100 && (
-									<span className="flex items-center gap-1">
-										<span className="text-green-600">⚡</span> Fast load
-									</span>
-								)}
-							</div>
-							<Link
-								href="/performance"
-								className="underline flex items-center gap-1"
-							>
-								<Activity className="h-3 w-3" />
-								Performance
-							</Link>
-						</div>
-					)}
 				</CardContent>
 			</Card>
 		</HydrationSafeWrapper>
